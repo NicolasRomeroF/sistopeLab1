@@ -84,13 +84,24 @@ int main(int argc, char **argv) {
 	
 	sprintf(buff2,"%d",lineasPorProceso);
 
+
+	pid_t pid_hijo, wpid;
+	int status = 0;
+
 	int i = 0;
 	for (i = 0; i < nCant - 1; i++) {
-		if (fork() == 0) {
-			sprintf(buff1,"%d",i*cCant);
+		if ((pid_hijo = fork()) == 0) {
+			sprintf(buff1,"%d",i*(cCant+1)*lineasPorProceso);
 			sprintf(buff3,"%d",i);
 			execl("comparador", "comparador", "-i", iName, "-c", buff1, "-p", pCadena, "-l", buff2, "-d", buff3, NULL);
 		}
 	}
+
+	while ((wpid = wait(&status)) > 0);
+
+	
+
+	//printf("Termine main\n");
+	
 	return 0;
 }

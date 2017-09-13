@@ -114,7 +114,7 @@ int main(int argc, char **argv) {
 	char linea[256];
 	int lineas = lCantidad;
 
-	printf("paso archivo\n");
+	//printf("paso archivo\n");
 
 	while (lineas != 0) {
 		fscanf(fp, "%s", linea);
@@ -127,5 +127,8 @@ int main(int argc, char **argv) {
 		}
 		lineas--;
 	}
+	//printf("Termine %d\n",dProceso);
+	exit(0);
+	return 0;
 }
 
