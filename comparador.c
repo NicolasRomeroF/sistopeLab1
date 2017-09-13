@@ -68,7 +68,7 @@ int main(int argc, char **argv) {
 			sscanf(optarg, "%d", &dProceso);
 			break;
 		case '?':
-			if (optopt == 'c' || optopt == 'a' || optopt == 'p' || optopt == 's') {
+			if (optopt == 'i' || optopt == 'c' || optopt == 'p' || optopt == 'l' || optopt == 'd') {
 				fprintf (stderr, "Option -%c requires an argument.\n", optopt);
 			}
 			else if (isprint (optopt)) {

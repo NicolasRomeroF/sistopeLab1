@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include <ctype.h>
 
 
@@ -21,11 +22,11 @@ int main(int argc, char **argv) {
 	int c;
 
 	opterr = 0;
+	printf("prueba\n");
 
-
-	while ((c = getopt (argc, argv, "i:n:c:p:d")) != -1) {
+	while ((c = getopt (argc, argv, "i:n:c:p:d:")) != -1) {
 		switch (c) {
-		case 'a':
+		case 'i':
 			iName = optarg;
 			break;
 		case 'n':
@@ -41,7 +42,7 @@ int main(int argc, char **argv) {
 			dFlag = 1;
 			break;
 		case '?':
-			if (optopt == 'i' || optopt == 'n' || optopt == 'c' || optopt == 'o') {
+			if (optopt == 'i' || optopt == 'n' || optopt == 'c' || optopt == 'p') {
 				fprintf (stderr, "Option -%c requires an argument.\n", optopt);
 			}
 			else if (isprint (optopt)) {
