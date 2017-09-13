@@ -44,13 +44,13 @@ int main(int argc, char **argv) {
 			break;
 		case '?':
 			if (optopt == 'i' || optopt == 'n' || optopt == 'c' || optopt == 'p') {
-				fprintf (stderr, "Option -%c requires an argument.\n", optopt);
+				fprintf (stderr, "Opcion -%c requiere un argumento.\n", optopt);
 			}
 			else if (isprint (optopt)) {
-				fprintf (stderr, "Unknown option `-%c'.\n", optopt);
+				fprintf (stderr, "Opcion desconocida `-%c'.\n", optopt);
 			}
 			else {
-				fprintf (stderr, "Unknown option character `\\x%x'.\n", optopt);
+				fprintf (stderr, "Caracter desconocido `\\x%x'.\n", optopt);
 
 			}
 			return 1;
@@ -62,20 +62,34 @@ int main(int argc, char **argv) {
 	printf ("iName = %s, nCant = %d, cCant = %d, pCadena = %s, dFlag = %d\n", iName, nCant, cCant, pCadena, dFlag);
 
 	for (index = optind; index < argc; index++) {
-		printf ("Non-option argument %s\n", argv[index]);
+		printf ("Argumento no existente %s\n", argv[index]);
 	}
-	FILE* fp = fopen(iName,"r");
-	int nLineas=0;
+	FILE* fp = fopen(iName, "r");
+	int nLineas = 0;
 	char aux[256];
-	while(!feof(fp)){
-		fscanf(fp,"%s",aux);
+
+
+
+	while (!feof(fp)) {
+		fscanf(fp, "%s", aux);
 		nLineas++;
 	}
-	int lineasPorProceso = nLineas/nCant;
+
+	int lineasPorProceso = nLineas / nCant;
+
+	char buff1[16];
+	char buff2[16];
+	char buff3[16];
+
+	
+	sprintf(buff2,"%d",lineasPorProceso);
+
 	int i = 0;
-	for(i=0;i<nCant-1;i++){
-		if(fork() == 0){
-			execl("comparador","comparador","-i",iName,"-c",i*cCant,"-p",pCadena,"-l",lineasPorProceso,"-d",i);
+	for (i = 0; i < nCant - 1; i++) {
+		if (fork() == 0) {
+			sprintf(buff1,"%d",i*cCant);
+			sprintf(buff3,"%d",i);
+			execl("comparador", "comparador", "-i", iName, "-c", buff1, "-p", pCadena, "-l", buff2, "-d", buff3, NULL);
 		}
 	}
 	return 0;
