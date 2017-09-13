@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <ctype.h>
+#include <sys/types.h>
 
 
 int main(int argc, char **argv) {
@@ -24,7 +25,7 @@ int main(int argc, char **argv) {
 	opterr = 0;
 	printf("prueba\n");
 
-	while ((c = getopt (argc, argv, "i:n:c:p:d:")) != -1) {
+	while ((c = getopt (argc, argv, "i:n:c:p:d")) != -1) {
 		switch (c) {
 		case 'i':
 			iName = optarg;
@@ -62,6 +63,20 @@ int main(int argc, char **argv) {
 
 	for (index = optind; index < argc; index++) {
 		printf ("Non-option argument %s\n", argv[index]);
+	}
+	FILE* fp = fopen(iName,"r");
+	int nLineas=0;
+	char aux[256];
+	while(!feof(fp)){
+		fscanf(fp,"%s",aux);
+		nLineas++;
+	}
+	int lineasPorProceso = nLineas/nCant;
+	int i = 0;
+	for(i=0;i<nCant-1;i++){
+		if(fork() == 0){
+			execl("comparador","comparador","-i",iName,"-c",i*cCant,"-p",pCadena,"-l",lineasPorProceso,"-d",i);
+		}
 	}
 	return 0;
 }
