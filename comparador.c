@@ -5,14 +5,24 @@
 #include <ctype.h>
 
 
-int verificarCadena(char* cadenaAux, char* cadena) {
+int verificarCadena(char* linea, int pos, char* cadena) {
 	int cont = 0;
-	char c = 0;
-	while (c != '\0') {
-		if (cadenaAux[cont] != cadena[cont]) {
+	int contPos = cont + pos;
+	char cLinea = linea[cont];
+	char cCadena = cadena[cont];
+	while (cCadena != '\0') {
+		if(cLinea == '\0')
+		{
+			return 0;
+		}
+
+		else if (linea[contPos] != cadena[cont]) {
 			return 0;
 		}
 		cont++;
+		contPos++;
+		cLinea = linea[contPos];
+		cCadena = cadena[cont];	
 	}
 	return 1;
 }
@@ -20,7 +30,7 @@ int verificarCadena(char* cadenaAux, char* cadena) {
 int verificarLinea(char* linea, char* cadena) {
 	int cont = 0;
 	while (linea[cont] != '\0') {
-		if (verificarCadena(linea, cadena)) {
+		if (verificarCadena(linea, cont, cadena)) {
 			return 1;
 		}
 		else {
