@@ -4,56 +4,63 @@
 #include <ctype.h>
 
 
-int main(int argc, char **argv){
-	char* aName;
-  	int pCant = 0;
-  	int cCant;
-  	char* sCadena;
-  	int fFlag=0;
-  	int index;
-  	int c;
+int main(int argc, char **argv) {
+	/* i: nombre archivo
+	   n: numero de procesos
+	   c: cantidad de caracteres
+	   p: cadena a buscar
+	   d: bandera que indica si mostrar por pantalla
+	*/
 
-  	opterr = 0;
+	char* iName;
+	int nCant = 0;
+	int cCant = 0;
+	char* pCadena;
+	int dFlag = 0;
+	int index;
+	int c;
+
+	opterr = 0;
 
 
-  	while ((c = getopt (argc, argv, "a:p:c:s:f")) != -1){
-    		switch (c){
-      			case 'a':
-        			aName = optarg;
-        			break;
-      			case 'p':
-				sscanf(optarg, "%d", &pCant);
-				break;
-      			case 'c':
-				sscanf(optarg, "%d", &cCant);
-				break;
-			case 's':
-				sCadena =optarg;
-				break;
-			case 'f':
-				fFlag = 1;
-				break;
-      			case '?':
-        			if (optopt == 'c' || optopt == 'a' || optopt == 'p' || optopt == 's'){
-          				fprintf (stderr, "Option -%c requires an argument.\n", optopt);
-				}
-        			else if (isprint (optopt)){
-          				fprintf (stderr, "Unknown option `-%c'.\n", optopt);
-          			}
-        			else{
-          				fprintf (stderr,"Unknown option character `\\x%x'.\n",optopt);
-        				
-				}
-				return 1;
-      			default:
-        			abort ();
-      		}
+	while ((c = getopt (argc, argv, "i:n:c:p:d")) != -1) {
+		switch (c) {
+		case 'a':
+			iName = optarg;
+			break;
+		case 'n':
+			sscanf(optarg, "%d", &nCant);
+			break;
+		case 'c':
+			sscanf(optarg, "%d", &cCant);
+			break;
+		case 'p':
+			pCadena = optarg;
+			break;
+		case 'd':
+			dFlag = 1;
+			break;
+		case '?':
+			if (optopt == 'i' || optopt == 'n' || optopt == 'c' || optopt == 'o') {
+				fprintf (stderr, "Option -%c requires an argument.\n", optopt);
+			}
+			else if (isprint (optopt)) {
+				fprintf (stderr, "Unknown option `-%c'.\n", optopt);
+			}
+			else {
+				fprintf (stderr, "Unknown option character `\\x%x'.\n", optopt);
+
+			}
+			return 1;
+		default:
+			abort ();
+		}
 
 	}
-  	printf ("aName = %s, pCant = %d, cCant = %d, sCadena = %s, fFlag = %d\n",aName, pCant, cCant, sCadena, fFlag);
+	printf ("iName = %s, nCant = %d, cCant = %d, pCadena = %s, dFlag = %d\n", iName, nCant, cCant, pCadena, dFlag);
 
-  	for (index = optind; index < argc; index++){
-    		printf ("Non-option argument %s\n", argv[index]);
+	for (index = optind; index < argc; index++) {
+		printf ("Non-option argument %s\n", argv[index]);
 	}
-  	return 0;
+	return 0;
 }
