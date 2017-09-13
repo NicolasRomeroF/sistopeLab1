@@ -4,6 +4,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 
 
 int main(int argc, char **argv) {
@@ -65,6 +66,10 @@ int main(int argc, char **argv) {
 		printf ("Argumento no existente %s\n", argv[index]);
 	}
 	FILE* fp = fopen(iName, "r");
+	if(fp==NULL){
+		printf("El archivo no existe");
+		return 0;
+	}
 	int nLineas = 0;
 	char aux[256];
 
@@ -88,13 +93,20 @@ int main(int argc, char **argv) {
 	pid_t pid_hijo, wpid;
 	int status = 0;
 
-	int i = 0;
+	int i = 0,auxCant;
 	for (i = 0; i < nCant - 1; i++) {
 		if ((pid_hijo = fork()) == 0) {
 			sprintf(buff1,"%d",i*(cCant+1)*lineasPorProceso);
 			sprintf(buff3,"%d",i);
 			execl("comparador", "comparador", "-i", iName, "-c", buff1, "-p", pCadena, "-l", buff2, "-d", buff3, NULL);
 		}
+		auxCant=i;
+	}
+	if((pid_hijo = fork()) == 0){
+		sprintf(buff1,"%d",(auxCant+1)*(cCant+1)*lineasPorProceso);
+		sprintf(buff2,"%d",nLineas-lineasPorProceso*(nCant-1));
+		sprintf(buff3,"%d",(auxCant+1));
+		execl("comparador", "comparador", "-i", iName, "-c", buff1, "-p", pCadena, "-l", buff2, "-d", buff3, NULL);
 	}
 
 	while ((wpid = wait(&status)) > 0);

@@ -101,6 +101,10 @@ int main(int argc, char **argv) {
 	}
 
 	FILE* fp = fopen(iName, "r");
+	if(fp==NULL){
+		printf("El archivo no existe");
+		return 0;
+	}
 	char nombreArchivo[128] = "rc_";
 	strcat(nombreArchivo, pCadena);
 	strcat(nombreArchivo, "_");
@@ -110,6 +114,10 @@ int main(int argc, char **argv) {
 	strcat(nombreArchivo, buffer);
 	strcat(nombreArchivo, ".txt");
 	FILE *fpOut = fopen(nombreArchivo, "w");
+	if(fpOut==NULL){
+		printf("El archivo no se pudo crear");
+		return 0;
+	}
 	fseek(fp, cPosicion, SEEK_SET);
 	char linea[256];
 	int lineas = lCantidad;
