@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
 	opterr = 0;
 	printf("prueba\n");
 
-	while ((c = getopt (argc, argv, "i:n:c:p:d:")) != -1) {
+	while ((c = getopt (argc, argv, "i:n:c:p:d")) != -1) {
 		switch (c) {
 		case 'i':
 			iName = optarg;

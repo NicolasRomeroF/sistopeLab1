@@ -11,7 +11,7 @@ int verificarCadena(char* linea, int pos, char* cadena) {
 	char cLinea = linea[cont];
 	char cCadena = cadena[cont];
 	while (cCadena != '\0') {
-		if(cLinea == '\0')
+		if (cLinea == '\0')
 		{
 			return 0;
 		}
@@ -22,7 +22,7 @@ int verificarCadena(char* linea, int pos, char* cadena) {
 		cont++;
 		contPos++;
 		cLinea = linea[contPos];
-		cCadena = cadena[cont];	
+		cCadena = cadena[cont];
 	}
 	return 1;
 }
@@ -100,30 +100,26 @@ int main(int argc, char **argv) {
 		printf ("Non-option argument %s\n", argv[index]);
 	}
 
-	/*
-	char* file = argv[0];
-	FILE *fp = fopen(file, "r");
-	char* sPos = argv[1];
-	int pos = atoi(sPos);
-	char *cadena;
-	strcpy(cadena, argv[2]);
-	char* sLineas = argv[3];
-	int lineas = atoi(sLineas);
-	char* ID = argv[4];
-	char *nombreArchivo = "rc_";
-	strcat(nombreArchivo, cadena);
-	strcat(nombreArchivo, ID);
+	FILE* fp = fopen(iName, "r");
+	char nombreArchivo[128] = "rc_";
+	strcat(nombreArchivo, pCadena);
+	strcat(nombreArchivo, "_");
+	char buffer[16];
+	sprintf(buffer, "%d", dProceso);
+	printf("paso buffer\n");
+	strcat(nombreArchivo, buffer);
 	strcat(nombreArchivo, ".txt");
 	FILE *fpOut = fopen(nombreArchivo, "w");
-	fseek(fp, pos, SEEK_SET);
-	int contador = 0;
-	char * linea;
-	*/
-	/*
+	fseek(fp, cPosicion, SEEK_SET);
+	char linea[256];
+	int lineas = lCantidad;
+
+	printf("paso archivo\n");
+
 	while (lineas != 0) {
 		fscanf(fp, "%s", linea);
 		fprintf(fpOut, "%s", linea);
-		if (verificarLinea(linea, cadena)) {
+		if (verificarLinea(linea, pCadena)) {
 			fprintf(fpOut, "    SI\n");
 		}
 		else {
@@ -131,6 +127,5 @@ int main(int argc, char **argv) {
 		}
 		lineas--;
 	}
-	*/
 }
 
