@@ -6,6 +6,18 @@
 
 
 int verificarCadena(char* linea, int pos, char* cadena) {
+	/*
+	  Entradas:
+	  	linea: porción de línea del archivo
+	  	pos: posicion de lector de la linea
+	  	cadena: arreglo de chars a encontrar
+	  Descripción:
+	  	Esta función se encarga de buscar si se encuentra o no en una
+	  	porción de línea un arreglo de chars
+	  Salidas:
+	  	Devuelve 1 si se encontró la cadena
+	  	Devuelve 0 en caso contrario
+	*/
 	int cont = 0;
 	int contPos = cont + pos;
 	char cLinea = linea[cont];
@@ -28,6 +40,17 @@ int verificarCadena(char* linea, int pos, char* cadena) {
 }
 
 int verificarLinea(char* linea, char* cadena) {
+	/*
+	  Entradas:
+	  	linea: línea del archivo
+	  	cadena: arreglo de chars a encontrar
+	  Descripción:
+	  	Esta función se encarga de manejar el valor del contador
+	  	de posición de la línea y llamar a la funcion verificarCadena
+	  Salidas:
+	  	Devuelve 1 si se encontró la cadena
+	  	Devuelve 0 en caso contrario
+	*/
 	int cont = 0;
 	while (linea[cont] != '\0') {
 		if (verificarCadena(linea, cont, cadena)) {
@@ -52,6 +75,10 @@ int main(int argc, char **argv) {
 	int c;
 
 	opterr = 0;
+	/*
+		En las siguientes variables se guarda el valor
+		de cada una de las entradas obtenidas por la función getopt
+	*/
 
 	char* iName;
 	int cPosicion;
@@ -94,7 +121,6 @@ int main(int argc, char **argv) {
 		}
 
 	}
-	printf ("iName = %s, cPosicion = %d, pCadena = %s, lCantidad = %d, dProceso = %d\n", iName, cPosicion, pCadena, lCantidad, dProceso);
 
 	for (index = optind; index < argc; index++) {
 		printf ("Non-option argument %s\n", argv[index]);
@@ -110,9 +136,9 @@ int main(int argc, char **argv) {
 	strcat(nombreArchivo, "_");
 	char buffer[16];
 	sprintf(buffer, "%d", dProceso);
-	printf("paso buffer\n");
 	strcat(nombreArchivo, buffer);
 	strcat(nombreArchivo, ".txt");
+	//Creación archivo temporal donde s eguardan los resultados
 	FILE *fpOut = fopen(nombreArchivo, "w");
 	if(fpOut==NULL){
 		printf("El archivo no se pudo crear");
@@ -122,8 +148,7 @@ int main(int argc, char **argv) {
 	char linea[256];
 	int lineas = lCantidad;
 
-	//printf("paso archivo\n");
-
+	//Se comienza la lectura del archivo
 	while (lineas != 0) {
 		fscanf(fp, "%s", linea);
 		fprintf(fpOut, "%s", linea);
@@ -135,7 +160,6 @@ int main(int argc, char **argv) {
 		}
 		lineas--;
 	}
-	//printf("Termine %d\n",dProceso);
 	exit(0);
 	return 0;
 }
