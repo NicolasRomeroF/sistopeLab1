@@ -13,17 +13,23 @@
   Entradas: Archivo original, archivo final, archivo parcial, cantidad de caracteres
   Salidas:  void
   */
-void copiarArchivo(FILE* original, FILE* archivoC, FILE* archivoP, int cCant)
+void copiarArchivo(FILE* original, FILE* archivoC, FILE* archivoP, int cCant, int dFlag)
 {
 	
 	char* linea = malloc(sizeof(char) * (cCant+10));
 	char resultado[8];
-	while (feof(archivoP) != 1)
+	while (feof(archivoP) != 1 && feof(original) != 1)
 	{
 		fscanf(original,"%s",linea);
 		fprintf(archivoC,"%s",linea);
 		fscanf(archivoP, "%s", resultado);
 		fprintf(archivoC,"    %s\n",resultado);
+
+		//si dflag esta activado se muestra pantalla
+		if(dFlag==1)
+		{
+			printf("%s    %s\n",linea,resultado);
+		}
 
 	}
 	free(linea);
@@ -34,7 +40,7 @@ void copiarArchivo(FILE* original, FILE* archivoC, FILE* archivoP, int cCant)
   Entrada: Archivo original, cantidad total de archivos, cadena a encontrar, cantidad de caracteres
   Salida: void
   */
-void juntarArchivos(FILE* original, int cantArchivos, char* pCadena, int cCant)
+void juntarArchivos(FILE* original, int cantArchivos, char* pCadena, int cCant,int dFlag)
 {
 	rewind(original);
 	int i;
@@ -50,22 +56,23 @@ void juntarArchivos(FILE* original, int cantArchivos, char* pCadena, int cCant)
 	}
 
 	//Se recorren los archivos parciales y se agregan al archivo final
-	for (i = 0; i < cantArchivos-1; i++)
+	for (i = 0; i < cantArchivos; i++)
 	{
+		//printf("archivo: %d/%d, cCant: %d\n",i,cantArchivos-1,cCant);
 		char nombreP[128] = "rp_";
 		strcat(nombreP, pCadena);
 		strcat(nombreP, "_");
 		sprintf(buffer, "%d", i);
 		strcat(nombreP, buffer);
 		strcat(nombreP, ".txt");
-		printf("%s\n",nombreP);
+		//printf("%s\n",nombreP);
 		FILE* archivoP = fopen(nombreP, "r");
 		if (archivoP == NULL)
 		{
-			printf("ERROR al abrir archivo parcial");
+			printf("ERROR al abrir archivo parcial %d\n",i);
 			return;
 		}
-		copiarArchivo(original, archivoC,archivoP,cCant);
+		copiarArchivo(original, archivoC,archivoP,cCant,dFlag);
 		fclose(archivoP);
 	}
 	fclose(archivoC);
@@ -198,7 +205,7 @@ int main(int argc, char **argv) {
 	while ((wpid = wait(&status)) > 0);
 
 	//Se juntan los archivos
-	juntarArchivos(fp,nCant,pCadena,cCant);
+	juntarArchivos(fp,nCant,pCadena,cCant,dFlag);
 
 	fclose(fp);
 

@@ -127,11 +127,11 @@ int main(int argc, char **argv) {
 	}
 
 	FILE* fp = fopen(iName, "r");
-	if(fp==NULL){
+	if (fp == NULL) {
 		printf("El archivo no existe");
 		return 0;
 	}
-	char nombreArchivo[128] = "rc_";
+	char nombreArchivo[128] = "rp_";
 	strcat(nombreArchivo, pCadena);
 	strcat(nombreArchivo, "_");
 	char buffer[16];
@@ -140,7 +140,7 @@ int main(int argc, char **argv) {
 	strcat(nombreArchivo, ".txt");
 	//Creación archivo temporal donde s eguardan los resultados
 	FILE *fpOut = fopen(nombreArchivo, "w");
-	if(fpOut==NULL){
+	if (fpOut == NULL) {
 		printf("El archivo no se pudo crear");
 		return 0;
 	}
@@ -151,15 +151,22 @@ int main(int argc, char **argv) {
 	//Se comienza la lectura del archivo
 	while (lineas != 0) {
 		fscanf(fp, "%s", linea);
-		fprintf(fpOut, "%s", linea);
+		//fprintf(fpOut, "%s", linea);
 		if (verificarLinea(linea, pCadena)) {
-			fprintf(fpOut, "    SI\n");
+			fprintf(fpOut, "SI\n");
 		}
 		else {
-			fprintf(fpOut, "    NO\n");
+			fprintf(fpOut, "NO\n");
 		}
 		lineas--;
 	}
+
+
+	fseek(fpOut, -1, SEEK_END);
+	ftruncate(fileno(fpOut), ftell(fpOut));
+	fclose(fp);
+	fclose(fpOut);
+
 	exit(0);
 	return 0;
 }
